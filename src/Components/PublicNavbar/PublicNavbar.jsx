@@ -14,11 +14,11 @@ export const PublicNavbar = () => {
           <Navbar.Toggle aria-controls="public-navbar" />
           <Navbar.Collapse id="public-navbar" className="justify-content-end">
             <Nav className="align-items-center gap-2">
-              <Nav.Link href="#Home" className="nav-link">
+              <Nav.Link href="Home" className="nav-link">
                 Home
               </Nav.Link>
 
-              <Nav.Link href="#register" className="nav-link">
+              <Nav.Link href="register" className="nav-link">
                 Register
               </Nav.Link>
 
