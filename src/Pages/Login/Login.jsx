@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { handleError } from "../../utils/errorHandler";
 import { api } from "../../API/api";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../store/Slices/UserSlice";
 
 export function Login() {
   //States
@@ -18,6 +20,9 @@ export function Login() {
   //Refs
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
+  //Dispatch
+  const dispatch = useDispatch();
 
   //_____________Handlers_______________//
 
@@ -40,7 +45,7 @@ export function Login() {
       localStorage.setItem("token", response.data.token);
 
       //update user in Redux
-
+      dispatch(loginSuccess(response.data.user));
       //navigate
       navigate("/");
     } catch (error) {
@@ -95,47 +100,39 @@ export function Login() {
                   size="lg"
                   type="submit"
                   className="w-100 rounded-pill"
-                  disapbled={loading}
+                  disabled={loading}
                 >
                   {loading ? "Logging in ... " : "Login"}
                 </Button>
               </div>
             </Form>
             {/* Forgot-Password */}
-      <div className='text-center mt-3'>
-              <small className='text-muted'>
-                Forgot your password ?{" "}
-              </small>
-                 <span
-                        style={{
-                          color: "#7c3aed",
-                          fontWeight: 600,
-                          cursor: "pointer",
-                        }}
-                        onClick={() => navigate("/forgotPassword")}
-                      >
-                        Forgot-Password 
-                      </span>
-
+            <div className="text-center mt-3">
+              <small className="text-muted">Forgot your password ? </small>
+              <span
+                style={{
+                  color: "#7c3aed",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/forgotPassword")}
+              >
+                Forgot-Password
+              </span>
             </div>
 
             <div className="text-center mt-3">
-  <small className="text-muted">
-    Don’t have an account?{" "}
-    <Link to="/register" style={{ color: "#7c3aed", fontWeight: 600 }}>
-      Sign up
-    </Link>
-  </small>
-</div>
-
-
-
-
+              <small className="text-muted">
+                Don’t have an account?{" "}
+                <Link
+                  to="/register"
+                  style={{ color: "#7c3aed", fontWeight: 600 }}
+                >
+                  Sign up
+                </Link>
+              </small>
+            </div>
           </div>
-
-         
-
-
         </Row>
       </Container>
     </>
