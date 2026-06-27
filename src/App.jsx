@@ -13,6 +13,9 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { handleError } from "./utils/errorHandler";
 import { loginSuccess } from "./store/Slices/UserSlice";
+import { ProductDetails } from "./Pages/ProductDetails/ProductDetails";
+import { Cart } from "./Pages/Cart/Cart";
+import { Orders } from "./Pages/Orders/Orders";
 
 function App() {
   //Token
@@ -46,6 +49,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/resetPassword/:token" element={<ResetPassword />} />
+        <Route path="/products/:id" element={<ProductDetails/>}/>
+        <Route path="/cart" element={<Cart/>}/>
+        <Route path="/order" element={<Orders/>}/>
       </Routes>
     </>
   );
