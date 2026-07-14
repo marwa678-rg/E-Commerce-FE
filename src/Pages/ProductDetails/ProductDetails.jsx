@@ -7,10 +7,12 @@ import { imageUrl } from "../../utils/imageUrl";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/Slices/cartSlice";
+import { Rating } from "../../Components/Rating/Rating";
 
 export const ProductDetails = () => {
   //States
   const [loading, setLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
   const [product, setProduct] = useState({});
 
   //cart-redux
@@ -29,7 +31,6 @@ export const ProductDetails = () => {
         //Call Api => /products/:id
         const response = await api.get(`/products/${id}`);
 
-        console.log(response.data?.product);
         setProduct(response.data?.product);
       } catch (error) {
         handleError(error);
@@ -44,30 +45,28 @@ export const ProductDetails = () => {
   //_________Handler__________//
   async function handleAddToCart() {
     try {
-      setLoading(true);
+      setCartLoading(true);
 
-     
       //data
       const data = {
         productId: id,
-        quantity:1,
+        quantity: 1,
       };
       //call Api => AddTocart
       const response = await api.post("/cart/add", data);
 
-      console.log(response.data?.cart);
       //Set data in cart Redux
       dispatch(setCart(response.data?.cart));
       //Toast-Message
       toast.success(response.data.message);
 
       //navigate to cart page
-       go("/cart")
+      go("/cart");
     } catch (error) {
       console.log(error);
       handleError(error);
-    }finally{
-      setLoading(false)
+    } finally {
+      setCartLoading(false);
     }
   }
 
@@ -87,7 +86,7 @@ export const ProductDetails = () => {
                   src={imageUrl(product.imageCover)}
                   alt={product.name}
                   style={{
-                    height: "550px",
+                    height: "500px",
                     width: "100%",
                     objectFit: "cover",
                   }}
@@ -97,12 +96,30 @@ export const ProductDetails = () => {
           </Col>
 
           <Col className="d-flex  flex-column justify-content-center">
-            <h2>{product.name}</h2>
-            <h3>{product.brand}</h3>
-            <p>{product.description}</p>
-            <h3 className="fw-bold text-success">{product.price} EGP</h3>
-
-            <Button onClick={handleAddToCart}>Add To Cart</Button>
+            <Rating
+              rating={product.ratingsAverage}
+              quantity={product.ratingsQuantity}
+            />
+            <h2 className="fw-bold">{product.name}</h2>
+            <p className="text-muted fs-5 mb-0">
+              {" "}
+              Brand : <span className="fw-semibold">{product.brand}</span>
+            </p>
+            <p className="text-secondary mb-4">{product.description}</p>
+            <p className="text-success fw-semibold mb-0">
+              In Stock ({product.stock})
+            </p>
+            <div className="d-flex align-items-center gap-3">
+              <span className="text-decoration-line-through  text-muted ">
+                {product.price} EGP
+              </span>
+              {product.discountPrice > 0 && (
+                <h2 className="text-success">{product.discountPrice} EGP</h2>
+              )}
+            </div>
+            <Button size="lg" className="fw-semibold py-2" onClick={handleAddToCart} disabled={cartLoading}>
+              {cartLoading ? "Adding..." : "Add To Cart"}
+            </Button>
           </Col>
         </Row>
       </Container>

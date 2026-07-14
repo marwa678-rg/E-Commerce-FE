@@ -14,27 +14,22 @@ export const Products = () => {
   const dispatch = useDispatch();
 
   //Fetch Products
+
+  async function fetchProducts() {
+    try {
+      setLoading(true);
+      //Call Api => /products
+      const response = await api.get("/products");
+      dispatch(setProducts(response.data?.products));
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  }
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        setLoading(true);
-        //Call Api => /products
-        const response = await api.get("/products");
-
-        console.log(response.data?.products);
-
-        dispatch(setProducts(response.data?.products));
-      } catch (error) {
-        handleError(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    //handle Api Call
-    if (products.length === 0) {
-      fetchProducts();
-    }
-  }, [dispatch, products.length]);
+    fetchProducts();
+  }, []);
 
   if (loading) {
     return <h1>Loading...</h1>;

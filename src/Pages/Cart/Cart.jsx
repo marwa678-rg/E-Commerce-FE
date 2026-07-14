@@ -10,6 +10,7 @@ import { CartItem } from "../../Components/CartItem/CartItem";
 import emptyCart from "../../assets/Images/undraw_empty-cart_574u.svg";
 import { useNavigate } from "react-router-dom";
 import { BsCart4 } from "react-icons/bs";
+import { CheckoutModal } from "../../Components/CheckoutModal/CheckoutModal";
 
 export const Cart = () => {
   //States
@@ -19,6 +20,9 @@ export const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
   //Navigation
   const navigate = useNavigate();
+  //Modal states
+  const [show, setShow] = useState(false);
+
   //__________Fetch MY-CART_______________//
   useEffect(() => {
     async function getMyCart() {
@@ -26,7 +30,7 @@ export const Cart = () => {
       try {
         //call API =>/cart/my-cart
         const response = await api.get("/cart/my-cart");
-        console.log(response.data?.cart);
+       
         dispatch(setCart(response.data?.cart));
       } catch (error) {
         handleError(error);
@@ -38,6 +42,12 @@ export const Cart = () => {
       getMyCart();
     }
   }, [cart, dispatch]);
+
+  //__________________Handler________________//
+
+  //_____Modal Handlers__//
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -79,61 +89,67 @@ export const Cart = () => {
   }
 
   return (
-    <Container className="mt-4">
-      <Row>
-        {/* Cart Items */}
-        <Col lg={8}>
-          <h1 className="mb-4"> My Cart</h1>
-          {cart?.items?.map((item) => (
-            <CartItem key={item._id} item={item} />
-          ))}
-        </Col>
-        {/* Order Summary */}
-        <Col lg={4}>
-          <Card
-            className="shadow-sm rounded-4 p-2"
-            style={{ position: "sticky", top: "90px" }}
-          >
-            <Card.Body>
-              <div className="d-flex justify-content-between align-items-center mb-4">
-                <h4 className="mb-0">Order Summary</h4>
-                <span className="badge bg-light text-dark rounded-pill">
-                  {cart?.items?.length} Items
-                </span>
-              </div>
-
-              <div className="d-flex justify-content-between mb-3">
-                <span>Subtotal</span>
-                <strong>EGP {cart?.totalPrice?.toLocaleString()}</strong>
-              </div>
-
-              <div className="d-flex justify-content-between mb-3">
-                <span>Shipping Fee</span>
-
-                <div>
-                  <span className="text-decoration-line-through text-muted me-2">
-                    EGP 20.00
+    <>
+      <Container className="mt-4">
+        <Row>
+          {/* Cart Items */}
+          <Col lg={8}>
+            <h1 className="mb-4"> My Cart</h1>
+            {cart?.items?.map((item) => (
+              <CartItem key={item._id} item={item} />
+            ))}
+          </Col>
+          {/* Order Summary */}
+          <Col lg={4}>
+            <Card
+              className="shadow-sm rounded-4 p-2"
+              style={{ position: "sticky", top: "90px" }}
+            >
+              <Card.Body>
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h4 className="mb-0">Order Summary</h4>
+                  <span className="badge bg-light text-dark rounded-pill">
+                    {cart?.items?.length} Items
                   </span>
-                  <span className="text-success fw-bold">FREE</span>
                 </div>
-              </div>
 
-              <hr />
+                <div className="d-flex justify-content-between mb-3">
+                  <span>Subtotal</span>
+                  <strong>EGP {cart?.totalPrice?.toLocaleString()}</strong>
+                </div>
 
-              <div className="d-flex justify-content-between  mb-4">
-                <h4>Total</h4>
-                <h4 className="fw-bold">
-                  EGP {cart?.totalPrice?.toLocaleString()}
-                </h4>
-              </div>
+                <div className="d-flex justify-content-between mb-3">
+                  <span>Shipping Fee</span>
 
-              <button className="btn btn-primary w-100 rounded-pill py-3">
-                Checkout
-              </button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+                  <div>
+                    <span className="text-decoration-line-through text-muted me-2">
+                      EGP 20.00
+                    </span>
+                    <span className="text-success fw-bold">FREE</span>
+                  </div>
+                </div>
+
+                <hr />
+
+                <div className="d-flex justify-content-between  mb-4">
+                  <h4>Total</h4>
+                  <h4 className="fw-bold">
+                    EGP {cart?.totalPrice?.toLocaleString()}
+                  </h4>
+                </div>
+
+                <button
+                  className="btn btn-primary w-100 rounded-pill py-3"
+                  onClick={handleShow}
+                >
+                  Checkout
+                </button>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+      <CheckoutModal show={show} handleClose={handleClose} />
+    </>
   );
 };
