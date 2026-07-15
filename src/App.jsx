@@ -17,7 +17,7 @@ import { ProductDetails } from "./Pages/ProductDetails/ProductDetails";
 import { Cart } from "./Pages/Cart/Cart";
 import { AdminLayout } from "./Layouts/AdminLayout";
 import { AdminProtectedRoute } from "./Components/ProtectedRoutes/AdminProtectedRoute";
-import { Dashboard } from "./Pages/Admin/Dashboard/Dashbord";
+import { Dashboard } from "./Pages/Admin/Dashboard/Dashbord.jsx";
 import { Products } from "./Pages/Admin/Products/Products";
 import { Orders } from "./Pages/Orders/Orders.jsx";
 import { AddProduct } from "./Pages/Admin/AddProduct/AddProduct";

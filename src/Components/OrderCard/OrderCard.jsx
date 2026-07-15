@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { updateOrderStatus } from "../../store/Slices/orderSlice";
 import toast from "react-hot-toast";
 //CSS
-import "./OrderCard.css";
+import "./orderCard.css";
 
 //Define a mapping of order status to bootstrap color classes
 const statusColor = {
