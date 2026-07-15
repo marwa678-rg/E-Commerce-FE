@@ -15,7 +15,14 @@ import { handleError } from "./utils/errorHandler";
 import { loginSuccess } from "./store/Slices/UserSlice";
 import { ProductDetails } from "./Pages/ProductDetails/ProductDetails";
 import { Cart } from "./Pages/Cart/Cart";
-import { Orders } from "./Pages/Orders/Orders";
+import { AdminLayout } from "./Layouts/AdminLayout";
+import { AdminProtectedRoute } from "./Components/ProtectedRoutes/AdminProtectedRoute";
+import { Dashboard } from "./Pages/Admin/Dashboard/Dashbord";
+import { Products } from "./Pages/Admin/Products/Products";
+import { Orders } from "./Pages/Orders/Orders.jsx";
+import { AddProduct } from "./Pages/Admin/AddProduct/AddProduct";
+import { UpdateProduct } from "./Pages/Admin/UpdateProduct/UpdateProduct";
+import { AdminOrders } from "./Pages/Admin/AdminOrders/AdminOrders.jsx";
 
 function App() {
   //Token
@@ -49,9 +56,28 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/resetPassword/:token" element={<ResetPassword />} />
-        <Route path="/products/:id" element={<ProductDetails/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="/order" element={<Orders/>}/>
+        <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/order" element={<Orders />} />
+
+        {/*================= Admin Routes ============== */}
+
+        <Route element={<AdminProtectedRoute />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            {/* Dashboard */}
+            <Route index element={<Dashboard />} />
+
+            {/* Products */}
+            <Route path="products">
+              <Route index element={<Products />} />
+              <Route path="add" element={<AddProduct />} />
+              <Route path="update/:id" element={<UpdateProduct />} />
+            </Route>
+
+            {/* Orders */}
+            <Route path="order" element={<AdminOrders />} />
+          </Route>
+        </Route>
       </Routes>
     </>
   );
