@@ -18,18 +18,17 @@ export const AdminSidebar = () => {
           <NavLink className="nav-link" to="/admin">
             <MdDashboard /> Dashboard
           </NavLink>
-          <NavLink   className="nav-link" to="/admin/products">
+          <NavLink className="nav-link" to="/admin/products">
             <MdInventory /> Products
           </NavLink>
-          <NavLink  className="nav-link"    to="/admin/order">
+          <NavLink className="nav-link" to="/admin/order">
             <MdShoppingBag /> Orders
           </NavLink>
         </Nav>
-      
 
-      <Button className="logout_button">
-        <MdOutlineLogout /> Logout
-      </Button>
+        <Button className="logout_button">
+          <MdOutlineLogout /> Logout
+        </Button>
       </div>
     </>
   );

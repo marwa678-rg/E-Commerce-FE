@@ -17,8 +17,9 @@ import { Cart } from "./Pages/Cart/Cart";
 import { AdminLayout } from "./Layouts/AdminLayout";
 import { AdminProtectedRoute } from "./Components/ProtectedRoutes/AdminProtectedRoute";
 import { Dashboard } from "./Pages/Admin/Dashboard/Dashboard.jsx";
-import { Products } from "./Pages/Admin/Products/Products";
+
 import { Orders } from "./Pages/Orders/Orders.jsx";
+import { AdminProducts } from "./Pages/Admin/AdminProducts/AdminProducts.jsx";
 import { AddProduct } from "./Pages/Admin/AddProduct/AddProduct";
 import { UpdateProduct } from "./Pages/Admin/UpdateProduct/UpdateProduct";
 import { AdminOrders } from "./Pages/Admin/AdminOrders/AdminOrders.jsx";
@@ -71,7 +72,7 @@ function App() {
 
             {/* Products */}
             <Route path="products">
-              <Route index element={<Products />} />
+              <Route index element={<AdminProducts />} />
               <Route path="add" element={<AddProduct />} />
               <Route path="update/:id" element={<UpdateProduct />} />
             </Route>
