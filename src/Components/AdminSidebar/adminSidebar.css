@@ -1,0 +1,27 @@
+
+
+.admin-sidebar {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding:20px;
+  border-right:1px solid #eee;
+  position:sticky;
+  top:0;
+  background-color:#e8e7ed;
+  border-radius: 15px;
+}
+.sidebar_links{
+  gap:10px;
+  margin-top:auto;
+}
+.sidebar-links .nav-link.active{
+    background-color: #845ef7;
+    color: white !important;
+    border-radius: 8px;
+}
+.logout_button{
+  width:100%;
+  background-color: #845ef7 !important;
+border: none!important;
+}

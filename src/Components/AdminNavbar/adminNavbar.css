@@ -1,0 +1,14 @@
+.admin-navbar {
+  background-color: #845ef7;
+}
+.admin-navbar .nav-link {
+  color: white !important;
+}
+.navbar_brand {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: white !important;
+}
+.notification-icon {
+  color: yellow;
+}

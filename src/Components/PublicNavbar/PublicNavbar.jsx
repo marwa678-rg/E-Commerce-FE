@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../store/Slices/UserSlice";
 import { TiShoppingCart } from "react-icons/ti";
 import { BsBox2Heart } from "react-icons/bs";
-import './PublicNavbar.css'
+import "./PublicNavbar.css";
 export const PublicNavbar = () => {
   //User States
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -43,6 +43,11 @@ export const PublicNavbar = () => {
               {isLoggedIn ? (
                 <>
                   <Navbar.Text>Welcome {user?.name}</Navbar.Text>
+                  {(user?.role === "admin" || user?.role === "super_admin") && (
+                    <Nav.Link as={Link} to="/admin">
+                      Admin Dashboard
+                    </Nav.Link>
+                  )}
 
                   <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
 

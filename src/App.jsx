@@ -4,7 +4,6 @@ import Home from "./Pages/Home/Home";
 import Register from "./Pages/Register/Register";
 import { Login } from "./Pages/Login/Login";
 import { Toaster } from "react-hot-toast";
-import { PublicNavbar } from "./Components/PublicNavbar/PublicNavbar";
 import { VerifyOtp } from "./Pages/Verify-OTP/VerifyOtp";
 import { ForgotPassword } from "./Pages/ForgotPassword/ForgotPassword";
 import { ResetPassword } from "./Pages/ResetPassword/ResetPassword";
@@ -23,12 +22,14 @@ import { Orders } from "./Pages/Orders/Orders.jsx";
 import { AddProduct } from "./Pages/Admin/AddProduct/AddProduct";
 import { UpdateProduct } from "./Pages/Admin/UpdateProduct/UpdateProduct";
 import { AdminOrders } from "./Pages/Admin/AdminOrders/AdminOrders.jsx";
+import { PublicLayout } from "./Layouts/PublicLayout.jsx";
 
 function App() {
   //Token
   const token = localStorage.getItem("token");
   //Dispatch
   const dispatch = useDispatch();
+
   useEffect(() => {
     async function validateToken() {
       if (!token) return;
@@ -47,18 +48,19 @@ function App() {
   return (
     <>
       <Toaster position="top-left" />
-      <PublicNavbar />
-
+      {/*============== Public Layout ===============  */}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/verify-otp" element={<VerifyOtp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/resetPassword/:token" element={<ResetPassword />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/order" element={<Orders />} />
+        <Route path="/" element={<PublicLayout />}>
+          <Route index element={<Home />} />
+          <Route path="register" element={<Register />} />
+          <Route path="verify-otp" element={<VerifyOtp />} />
+          <Route path="login" element={<Login />} />
+          <Route path="forgotPassword" element={<ForgotPassword />} />
+          <Route path="resetPassword/:token" element={<ResetPassword />} />
+          <Route path="products/:id" element={<ProductDetails />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="order" element={<Orders />} />
+        </Route>
 
         {/*================= Admin Routes ============== */}
 
