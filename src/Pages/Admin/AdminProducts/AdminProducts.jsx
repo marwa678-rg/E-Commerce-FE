@@ -26,13 +26,22 @@ export const AdminProducts = () => {
   //products state
   const [products, setProducts] = useState([]);
 
+  //Search state
+  const [search, setSearch] = useState("");
+  //Category state
+  const [category, setCategory] = useState("");
+  //Brand state
+  const [brand, setBrand] = useState("");
+
   //======== fetch Admin Products =============//
   async function fetchAdminProducts() {
     try {
       setLoading(true);
 
       //Call API => api/v1/products
-      const response = await api.get("/products");
+      const response = await api.get("/products", {
+        params: { search, category, brand },
+      });
       //set products
       setProducts(response.data?.products);
     } catch (error) {
@@ -45,6 +54,10 @@ export const AdminProducts = () => {
     fetchAdminProducts();
   }, []);
 
+  //Filters => Category & Brand
+  useEffect(() => {
+    fetchAdminProducts();
+  }, [category, brand]);
   //_________Delete Product _____________//
   async function deleteProduct(id) {
     try {
@@ -63,7 +76,13 @@ export const AdminProducts = () => {
       {/* ===== Header ======== */}
       <div className="header">
         <h1>Products</h1>
-        <Button>+ Add Product</Button>
+        <Button
+          onClick={() => {
+            navigate("/admin/products/add");
+          }}
+        >
+          + Add Product
+        </Button>
       </div>
 
       {/* ======== Search  & Filter ======= */}
@@ -75,37 +94,41 @@ export const AdminProducts = () => {
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
               placeholder="Search by product name... "
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
-            <InputGroup.Text id="inputGroup-sizing-default">
+            <InputGroup.Text
+              id="inputGroup-sizing-default"
+              onClick={fetchAdminProducts}
+              style={{ cursor: "pointer" }}
+            >
               <CiSearch />
             </InputGroup.Text>
           </InputGroup>
         </div>
 
         <div className="dropdowen-style">
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Category
-            </Dropdown.Toggle>
+          <Form.Select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Home & Kitchen">Home & Kitchen</option>
+            <option value="Beauty">Beauty</option>
+            <option value="Sports">Sports</option>
+            <option value="Books">Books</option>
+          </Form.Select>
 
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Brand
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <Form.Select value={brand} onChange={(e) => setBrand(e.target.value)}>
+            <option value="">All Brands</option>
+            <option value="Apple">Apple</option>
+            <option value="Nike">Nike</option>
+            <option value="Samsung">Samsung</option>
+            <option value="Maybelline">Maybelline</option>
+            <option value="Tefal">Tefal</option>
+          </Form.Select>
         </div>
       </div>
 
@@ -142,21 +165,23 @@ export const AdminProducts = () => {
                   <td>{product.price} EGP</td>
                   <td>{product.discountPrice} EGP</td>
                   <td>{product.stock} </td>
-                  <Button
-                    onClick={() => {
-                      navigate(`/admin/products/update/${product._id}`);
-                    }}
-                  >
-                    <FaEdit />
-                  </Button>
+                  <td>
+                    <Button
+                      onClick={() => {
+                        navigate(`/admin/products/update/${product._id}`);
+                      }}
+                    >
+                      <FaEdit />
+                    </Button>
 
-                  <Button
-                    onClick={() => {
-                      deleteProduct(product._id);
-                    }}
-                  >
-                    <FaTrash />
-                  </Button>
+                    <Button
+                      onClick={() => {
+                        deleteProduct(product._id);
+                      }}
+                    >
+                      <FaTrash />
+                    </Button>
+                  </td>
                 </tr>
               ))
             ) : (
